@@ -23,27 +23,20 @@ public class TetrisData {
 		return line;
 	}
 	public synchronized void removeLines() {
-		NEXT:
-		for(int i = ROW-1; i >= 0; i--) {
-			boolean done = true;
-			for(int k = 0; k < COL; k++) {
-				if(data[i][k] == 0) {
-					done = false;
-					continue NEXT;
-				}
+		for (int i = ROW - 1; i >= 0; i--) {
+			boolean full = true;
+			for (int k = 0; k < COL; k++) {
+				if (data[i][k] == 0) { full = false; break; }
 			}
-			if(done) {
+			if (full) {
 				line++;
-				for(int x= i; x > 0; x--) {
-					for(int y = 0; y < COL; y++) {
+				for (int x = i; x > 0; x--) {
+					for (int y = 0; y < COL; y++) {
 						data[x][y] = data[x-1][y];
 					}
 				}
-				if(i != 0) {
-					for(int y = 0;y < COL; y++) {
-						data[0][y] = 0;
-					}
-				}
+				for (int y = 0; y < COL; y++) data[0][y] = 0;
+				i++; // 줄이 내려왔으므로 같은 행 재검사
 			}
 		}
 	}
